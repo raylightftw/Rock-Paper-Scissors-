@@ -5,6 +5,9 @@
     and returns a string that declares the winner of the round
     all this happens in a function called game() that keeps score of a 5 round game and reports winner or loser
 */
+/*
+player presses a button that selects his option. event listener. computer choice is same as usual. shows the output.
+*/
 
 
 function getComputerChoice()
@@ -20,48 +23,96 @@ let computerscore=0;
 let round=1;
 var playtemp;
 var choice;
-function getPlayerChoice()
-{
-    playtemp = prompt("Rock, Paper or Scissors?");
-    if( (playtemp.toLowerCase() == 'rock') || (playtemp.toLowerCase() == 'paper') || (playtemp.toLowerCase() == 'scissors') )
-        {
-            return playtemp;
-        }
-    else
-        {
-            console.log("Invalid input! Choose rock, paper or scissors!")
-            getPlayerChoice();
-        }
-}
-function playround(p,c)
-{       
-        
+
+var rock = document.querySelector('.rock');
+var paper = document.querySelector('.paper');
+var scissors = document.querySelector('.scissors');
+var pscore=0;
+var cscore=0;
+rock.addEventListener('click',() => playround('rock'));
+paper.addEventListener('click',() => playround('paper'));
+scissors.addEventListener('click',() => playround('scissors'));
+var body=document.querySelector('.text');
+winner=document.createElement('div');
+winner.classList.add('winner');
+
+
+
+function playround(p)
+{       const content=document.createElement('div');
+        c=getComputerChoice();
         if ( (p=='rock' && c=='paper') || (p=='paper' && c=='scissors') || (p=='scissor' && c=='rock') )
             {
-            console.log(`You lose round ${round} by choosing ${p}! Computer chose ${c}. +1 for computer. Player: ${playerscore}, Computer: ${++computerscore} `);
+            content.textContent=`you lose round  by choosing ${p}! Computer chose ${c}. +1 for computer. Player: ${pscore} , Computer: ${++cscore}`;
+            body.appendChild(content);
         
             }
         
         else if (p==c)
             {
-                console.log("Both computer and player chose the same one!")
+                content.textContent="both computer and player chose the same one!";
+                body.appendChild(content);
+
             }    
         
         else
             {
-             console.log(`You win round ${round} by choosing ${p}! Computer chose ${c}. +1 for player. Player: ${++playerscore}, Computer: ${computerscore}  `);
+             content.textContent=`you win round  by choosing ${p}! Computer chose ${c}. +1 for player. Player: ${++pscore} , Computer: ${cscore}   `;
+             body.appendChild(content);
 
             }
+        
+            if(pscore==5)
+            {   winner.textContent="Player won! Clear screen?"
+                body.appendChild(winner);
+                pscore=0;
+                cscore=0;
+
+                
+                playagain=document.createElement('button');
+                playagain.textContent='Sure!'
+                playagain.classList.add('button');
+                body.appendChild(playagain)
+                playagain.addEventListener("click",()=>{body.innerHTML="";})
+            }
+            if(cscore==5)
+            {
+                winner.textContent="Computer won! Clear screen?"
+                pscore=0;
+                cscore=0;
+
+                playagain=document.createElement('button');
+                playagain.textContent='Sure!'
+                playagain.classList.add('button');
+                body.appendChild(playagain)
+                playagain.addEventListener("click",()=>{body.innerHTML="";})
+            }
+            
 }
 
-function game()
+
+const disableButton = () =>
+{
+    rock.disabled=true;
+    paper.disabled=true;
+    scissors.disabled=true;
+
+}
+const enableButton = () =>
+{   body.innerHTML="";
+    rock.disabled=false;
+    paper.disabled=false;
+    scissors.disabled=false;
+}
+
+/* function game()
 {   playerscore=0;
     computerscore=0;
     for(round=1;round<=5;round++)
         {
-        let playerSelection = getPlayerChoice();
+        
         let computerSelection = getComputerChoice();
-        playround(playerSelection,computerSelection);
+        playround(computerSelection);
         }
     console.log("5 Rounds are over!")
     if (computerscore>playerscore)
@@ -84,7 +135,8 @@ function game()
         {
             console.log("Thanks for coming!")
         }
-}
+} 
 
 game();
+*/
 
